@@ -14,10 +14,12 @@ public class RSASignatureTest {
 	public static RSASignature signature = new RSASignature();
 
 	@Test
-	public void verifySignature() {
+	public void verifySignature()  {
 		KeyPair keyPair = signature.generateKeys();
 		String someStr = "someStr";
-		byte[] signed = signature.sign(keyPair.getPrivate(), someStr);
+		byte[] signed = null;
+		signed = signature.sign(keyPair.getPrivate(), someStr);
+		assertTrue(signed != null && signed.length > 0);
 		assertTrue( signature.verifySignature(keyPair.getPublic(), someStr, signed));
 	}
 

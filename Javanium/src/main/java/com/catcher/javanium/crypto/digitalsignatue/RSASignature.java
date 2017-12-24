@@ -17,11 +17,13 @@ import com.catcher.javanium.utilities.Logger;
 
 public class RSASignature implements DigitalSignature {
 
+	Signature rsa = null;
 	KeyPairGenerator keyGen = null;
 	SecureRandom random = null;
 
 	public RSASignature(){
 		try{
+			rsa = Signature.getInstance("SHA256withRSA");
 			keyGen = KeyPairGenerator.getInstance("RSA");
 			random = SecureRandom.getInstance("SHA1PRNG");
 			keyGen.initialize(2048, random);
@@ -34,11 +36,10 @@ public class RSASignature implements DigitalSignature {
 	@Override
 	public boolean verifySignature(PublicKey pubKey, Serializable message, byte[] signature) {
 		try {
-			Signature sig = Signature.getInstance("SHA256withRSA");
-			sig.initVerify(pubKey);
-			sig.update(SerializationUtils.serialize(message));
-			return sig.verify(signature);
-		} catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException e) {
+			rsa.initVerify(pubKey);
+			rsa.update(SerializationUtils.serialize(message));
+			return rsa.verify(signature);
+		} catch (InvalidKeyException | SignatureException e) {
 			Logger.error(e);
 		}
 		return false; 
@@ -50,16 +51,15 @@ public class RSASignature implements DigitalSignature {
 	}
 
 	@Override
-	public byte[] sign(PrivateKey privateKey, Serializable data){
+	public byte[] sign(PrivateKey privateKey, Serializable data) {
 		try {
-			Signature rsa = Signature.getInstance("SHA256withRSA");
 			rsa.initSign(privateKey);
 			rsa.update(SerializationUtils.serialize(data));
 			return rsa.sign();
-		} catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
+		} catch (SignatureException | InvalidKeyException e) {
 			Logger.error(e);
+			return new byte[0];
 		}
-		return new byte[0];
 	}
 
 
