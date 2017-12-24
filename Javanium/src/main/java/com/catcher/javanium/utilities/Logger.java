@@ -21,7 +21,7 @@ public class Logger {
 	public static void error(Exception thrown){
 		String sourceClass = TraceHelper.getCallingClassName();
 		String sourceMethod = TraceHelper.getCallingClassName();
-		java.util.logging.Logger.getLogger(TraceHelper.getCallingClassName()).throwing(sourceClass, sourceMethod, thrown);;
+		java.util.logging.Logger.getLogger(TraceHelper.getCallingClassName()).throwing(sourceClass, sourceMethod, thrown);
 	}
 
 
