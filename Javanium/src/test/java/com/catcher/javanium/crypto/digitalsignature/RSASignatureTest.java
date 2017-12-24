@@ -7,7 +7,7 @@ import java.security.KeyPair;
 
 import org.junit.Test;
 
-import com.catcher.javanium.crypto.digitalsignatue.RSASignature;
+import com.catcher.javanium.crypto.digitalsignature.RSASignature;
 
 public class RSASignatureTest {
 

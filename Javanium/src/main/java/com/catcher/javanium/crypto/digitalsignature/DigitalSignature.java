@@ -1,4 +1,4 @@
-package com.catcher.javanium.crypto.digitalsignatue;
+package com.catcher.javanium.crypto.digitalsignature;
 
 import java.io.Serializable;
 import java.security.KeyPair;
