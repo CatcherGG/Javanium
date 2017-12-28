@@ -1,5 +1,10 @@
 package com.catcher.javanium.utilities;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import com.catcher.javanium.blockchain.transaction.Transaction;
+
 public class Utilities {
 
 	private Utilities(){
@@ -12,6 +17,10 @@ public class Utilities {
 			reversed[i] = bytes[bytes.length-1-i];
 		}
 		return reversed;
+	}
+
+	public static byte[][] toBytesArray(Transaction[] transactions) {
+		return Arrays.stream(transactions).map(Transaction::hash).collect(Collectors.toList()).toArray(new byte[0][0]);
 	}
 
 }

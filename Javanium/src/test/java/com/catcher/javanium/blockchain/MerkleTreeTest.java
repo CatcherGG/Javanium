@@ -3,6 +3,8 @@ package com.catcher.javanium.blockchain;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.catcher.javanium.blockchain.block.merkletree.BitcoinMerkleTree;
+
 public class MerkleTreeTest {
 
 	@Test
@@ -110,7 +112,7 @@ public class MerkleTreeTest {
 				"27a0797cc5b042ba4c11e72a9555d13a67f00161550b32ede0511718b22dbc2c"
 		};
 
-		Assert.assertEquals("871714dcbae6c8193a2bb9b2a69fe1c0440399f38d94b3a0f1b447275a29978a", new BitcoinMerkleTree(txHashes).getMerkleRoot());
+		Assert.assertEquals("871714dcbae6c8193a2bb9b2a69fe1c0440399f38d94b3a0f1b447275a29978a", new BitcoinMerkleTree().getRoot(txHashes));
 	}
 
 }

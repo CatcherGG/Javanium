@@ -1,4 +1,4 @@
-package com.catcher.javanium.blockchain;
+package com.catcher.javanium.blockchain.block.merkletree;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
@@ -11,17 +11,16 @@ import com.catcher.javanium.utilities.Utilities;
 import com.google.common.hash.HashFunction;
 import com.google.common.primitives.Bytes;
 
-public class BitcoinMerkleTree {
+public class BitcoinMerkleTree implements MerkleTree<String, String> {
 
 	HashFunction hash;
-	String merkleRoot;
 
-	public BitcoinMerkleTree(String[] transactions){
+	public BitcoinMerkleTree(){
 		hash = HashFunctionFactory.getHashFunction(HASH.SHA256);
-		merkleRoot = buildTree(transactions);
 	}
 
-	private String buildTree(String[] transactions){
+	@Override
+	public String getRoot(String[] transactions){
 		try {
 			if (transactions.length == 1) {
 				return transactions[0];
@@ -37,7 +36,7 @@ public class BitcoinMerkleTree {
 				hashNodes[hashNodes.length -1] = getDoubleDigestHexValue(lastOddNode, lastOddNode);
 			}
 
-			return buildTree(hashNodes);
+			return getRoot(hashNodes);
 		} catch (DecoderException e){
 			Logger.error(e);
 		}
@@ -45,14 +44,12 @@ public class BitcoinMerkleTree {
 		return StringUtils.EMPTY;
 	}
 
-	public final String getMerkleRoot() {
-		return merkleRoot;
-	}
-
-	public String getDoubleDigestHexValue(String str1, String str2) throws DecoderException {
+	private String getDoubleDigestHexValue(String str1, String str2) throws DecoderException {
+		// This takes out two strings decode to bytes, reverse the order (Little endian), Combine them and then hash them twice. [This is how it's really being done in bitcoin.]
 		byte[] combinedAndReveresed = Bytes.concat(Utilities.reverseBytes(Hex.decodeHex(str1)), Utilities.reverseBytes(Hex.decodeHex(str2)));
 		byte[] oneDigest = hash.hashBytes(combinedAndReveresed).asBytes();
 		byte[] secondDigest = hash.hashBytes(oneDigest).asBytes();
+		// Lastly, Reverse it back.
 		secondDigest = Utilities.reverseBytes(secondDigest);
 		return Hex.encodeHexString(secondDigest);
 	}
