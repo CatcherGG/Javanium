@@ -5,7 +5,7 @@ import java.util.List;
 import com.catcher.javanium.blockchain.transaction.Output;
 import com.catcher.javanium.blockchain.transaction.UnspentTransaction;
 
-public interface Ledger {
+public interface UnspentTransactionsLedger{
 
 	/** Add transaction to the ledger. */
 	public void addUnspentTransaction(UnspentTransaction unspentTransaction, Output output);
@@ -16,7 +16,7 @@ public interface Ledger {
 	/** Get a list of all unspent transactions */
 	public List<UnspentTransaction> getAllUnspentTransactions();
 	/** Deep copy of the ledger */
-	public Ledger copy(Ledger ledger);
+	public UnspentTransactionsLedger copy(UnspentTransactionsLedger ledger);
 
 	public boolean contains(UnspentTransaction unspentTransaction);
 	public boolean contains(Output transactionOutput);

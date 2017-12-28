@@ -7,13 +7,13 @@ import java.util.Set;
 
 import com.catcher.javanium.crypto.digitalsignature.DigitalSignature;
 import com.catcher.javanium.crypto.digitalsignature.RSASignature;
-import com.catcher.javanium.ledger.Ledger;
+import com.catcher.javanium.ledger.UnspentTransactionsLedger;
 
 public class TransactionHandler {
 
-	Ledger ledger;
+	UnspentTransactionsLedger ledger;
 
-	public TransactionHandler(Ledger ledger) {
+	public TransactionHandler(UnspentTransactionsLedger ledger) {
 		this.ledger = ledger.copy(ledger);
 	}
 

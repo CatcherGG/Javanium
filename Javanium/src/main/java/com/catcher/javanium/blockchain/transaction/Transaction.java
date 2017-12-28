@@ -24,14 +24,14 @@ public class Transaction implements Serializable{
 
 
 	public Transaction() {
-		inputs = new ArrayList<Input>();
-		outputs = new ArrayList<Output>();
+		inputs = new ArrayList<>();
+		outputs = new ArrayList<>();
 	}
 
 	public Transaction(Transaction transaction) {
 		hash = transaction.hash.clone();
-		inputs = new ArrayList<Input>(transaction.inputs);
-		outputs = new ArrayList<Output>(transaction.outputs);
+		inputs = new ArrayList<>(transaction.inputs);
+		outputs = new ArrayList<>(transaction.outputs);
 	}
 
 	public void addInput(byte[] prevTransactionHash, int outputIndex) {
@@ -49,14 +49,14 @@ public class Transaction implements Serializable{
 	}
 
 	public void removeInput(UnspentTransaction ut) {
-		//		for (int i = 0; i < inputs.size(); i++) {
-		//			Input in = inputs.get(i);
-		//			UnspentTransaction u = new UnspentTransaction(in.previousTransactionHash, in.outputIndex);
-		//			if (u.equals(ut)) {
-		//				inputs.remove(i);
-		//				return;
-		//			}
-		//		}
+		for (int i = 0; i < inputs.size(); i++) {
+			Input in = inputs.get(i);
+			UnspentTransaction u = new UnspentTransaction(in.outputTransactionHash, in.outputIndex);
+			if (u.equals(ut)) {
+				inputs.remove(i);
+				return;
+			}
+		}
 	}
 
 	public byte[] getTransactionData(int index) {
