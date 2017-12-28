@@ -8,13 +8,13 @@ import java.util.Map;
 import com.catcher.javanium.blockchain.transaction.Output;
 import com.catcher.javanium.blockchain.transaction.UnspentTransaction;
 
-public class UnspentTransactionsKeyValueLedger implements UnspentTransactionsLedger {
+public class UnspentTransactionsKeyValuePool implements UnspentTransactionsPool {
 
 
 	Map<UnspentTransaction, Output> unspentTransactionPool = new HashMap<>();
 
 
-	public UnspentTransactionsKeyValueLedger(UnspentTransactionsKeyValueLedger otherKeyValue){
+	public UnspentTransactionsKeyValuePool(UnspentTransactionsKeyValuePool otherKeyValue){
 		unspentTransactionPool = new HashMap<>(otherKeyValue.unspentTransactionPool);
 	}
 
@@ -39,9 +39,9 @@ public class UnspentTransactionsKeyValueLedger implements UnspentTransactionsLed
 	}
 
 	@Override
-	public UnspentTransactionsLedger copy(UnspentTransactionsLedger ledger) {
+	public UnspentTransactionsPool copy(UnspentTransactionsPool ledger) {
 		if (ledger.getClass().isAssignableFrom(getClass())){
-			return new UnspentTransactionsKeyValueLedger((UnspentTransactionsKeyValueLedger) ledger);
+			return new UnspentTransactionsKeyValuePool((UnspentTransactionsKeyValuePool) ledger);
 		}
 		return null;
 	}
