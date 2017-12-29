@@ -43,7 +43,8 @@ public class BasicMerkleTree implements MerkleTree<Transaction, byte[]> {
 	}
 
 	private byte[] hashBytes(byte[] trans1, byte[] trans2) {
-		// This is different from bitcoin such that I don't reverse, Don't hash twice, and I'm using SHA512.
+		// This is different from Bitcoin such that I don't reverse, Don't hash twice [For simplicity and readability] - and I'm using SHA512 while Bitcoin uses SHA256.
+		// I've implemented Bitcoin merkle tree to show how Bitcoin merkle trees actully work.
 		return hash.hashBytes(Bytes.concat(trans1, trans2)).asBytes();
 	}
 
