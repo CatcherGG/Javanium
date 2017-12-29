@@ -18,9 +18,9 @@ public class Transaction implements Serializable{
 	private static final long serialVersionUID = -3091411374641985629L;
 
 	/** hash of the transaction, its unique id */
-	private byte[] hash;
-	private transient List<Input> inputs;
-	private transient List<Output> outputs;
+	protected byte[] hash;
+	protected transient List<Input> inputs;
+	protected transient List<Output> outputs;
 
 
 	public Transaction() {
@@ -154,6 +154,10 @@ public class Transaction implements Serializable{
 			return false;
 		}
 		return true;
+	}
+
+	public boolean isCoinbase(){
+		return false;
 	}
 
 }

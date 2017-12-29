@@ -1,4 +1,4 @@
-package com.catcher.javanium.ledger;
+package com.catcher.javanium.blockchain.unspenttransaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,9 @@ public class UnspentTransactionsKeyValuePool implements UnspentTransactionsPool 
 
 	Map<UnspentTransaction, Output> unspentTransactionPool = new HashMap<>();
 
+	public UnspentTransactionsKeyValuePool(){
+		unspentTransactionPool = new HashMap<>();
+	}
 
 	public UnspentTransactionsKeyValuePool(UnspentTransactionsKeyValuePool otherKeyValue){
 		unspentTransactionPool = new HashMap<>(otherKeyValue.unspentTransactionPool);

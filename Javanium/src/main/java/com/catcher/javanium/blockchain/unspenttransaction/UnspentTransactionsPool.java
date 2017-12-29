@@ -1,4 +1,4 @@
-package com.catcher.javanium.ledger;
+package com.catcher.javanium.blockchain.unspenttransaction;
 
 import java.util.List;
 

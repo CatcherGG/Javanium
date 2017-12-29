@@ -5,18 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.catcher.javanium.blockchain.unspenttransaction.UnspentTransactionsPool;
 import com.catcher.javanium.crypto.digitalsignature.DigitalSignature;
 import com.catcher.javanium.crypto.digitalsignature.RSASignature;
-import com.catcher.javanium.ledger.UnspentTransactionsPool;
 
 public class TransactionHandler {
 
-	UnspentTransactionsPool ledger;
-
-	public TransactionHandler(UnspentTransactionsPool ledger) {
-		this.ledger = ledger.copy(ledger);
-	}
-
+	UnspentTransactionsPool unspentTransactionPool;
 
 	public boolean isTransactionValid(Transaction transaction) {
 		DigitalSignature signature = new RSASignature();
@@ -30,8 +25,8 @@ public class TransactionHandler {
 		for (int i=0; i<inputs.size(); i++) {
 			Input input = inputs.get(i);
 			UnspentTransaction unspentTransaction = new UnspentTransaction(input.outputTransactionHash, input.outputIndex);
-			Output output = ledger.getTransactionOutput(unspentTransaction);
-			if (ledger.contains(unspentTransaction)	&& !outputsConfirmed.contains(output) && output.value > 0 && signature.verifySignature(output.address, transaction, input.signature)){
+			Output output = unspentTransactionPool.getTransactionOutput(unspentTransaction);
+			if (unspentTransactionPool.contains(unspentTransaction)	&& !outputsConfirmed.contains(output) && output.value > 0 && signature.verifySignature(output.address, transaction, input.signature)){
 				outputsConfirmed.add(output);
 				previousTransactionSum += output.value;
 			} else {
@@ -49,7 +44,6 @@ public class TransactionHandler {
 		return previousTransactionSum >= currentTransactionSum;
 	}
 
-
 	public Transaction[] handleTransactions(Transaction[] possibleTransactions) {
 
 		List<Transaction> validTransactions = new ArrayList<>();
@@ -60,20 +54,39 @@ public class TransactionHandler {
 
 				for (Input input : transaction.getInputs()) {
 					UnspentTransaction unspentTransaction = new UnspentTransaction(input.outputTransactionHash, input.outputIndex);
-					ledger.removeUnspentTransaction(unspentTransaction);
+					unspentTransactionPool.removeUnspentTransaction(unspentTransaction);
 				}
 
 				List<Output> outputs = transaction.getOutputs();
 				for (int i = 0; i < outputs.size(); i++) {
 					Output output = transaction.getOutput(i);
 					UnspentTransaction unspentTransaction = new UnspentTransaction(transaction.hash(), i);
-					ledger.addUnspentTransaction(unspentTransaction, output);
+					unspentTransactionPool.addUnspentTransaction(unspentTransaction, output);
 				}
 			}
 		}
 
 		return validTransactions.toArray(possibleTransactions);
 	}
+
+	public void addCoinbaseTransaction(Transaction coinbaseTransaction){
+		if (isTransactionValid(coinbaseTransaction)){
+			int i = 0;
+			for (Output output : coinbaseTransaction.getOutputs()) {
+				UnspentTransaction unspentTransaction = new UnspentTransaction(coinbaseTransaction.hash(), i++);
+				unspentTransactionPool.addUnspentTransaction(unspentTransaction, output);
+			}
+		}
+	}
+
+	public TransactionHandler(UnspentTransactionsPool pool) {
+		unspentTransactionPool = pool.copy(pool);
+	}
+
+	public final UnspentTransactionsPool getUnspentTransactionPool() {
+		return unspentTransactionPool;
+	}
+
 
 }
 
