@@ -8,6 +8,11 @@ Javanium blockchain is pretty similiar to Bitcoin logic. Except that I've been u
 
 In order to make it persistent the blockchain itself is stored in MapDB (Embedded noSQL DB)
 
+## P2P Server
+
+Javanium is using a P2P network that uses a server to track the current active users in the system.
+The server is based on Jetty, Jersey and SQLite. (To hold the subscribers).
+
 ## Current status
-I'm still working on consensus implementation.
+Working on P2P Client. (Basic wallet example)
 
