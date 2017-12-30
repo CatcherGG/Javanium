@@ -7,7 +7,9 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.quartz.SchedulerException;
 
+import com.catcher.javanium.p2p.server.subscribers.Cleaner;
 import com.catcher.javanium.p2p.server.subscribers.DBHandler;
 
 public class P2PServer {
@@ -35,8 +37,9 @@ public class P2PServer {
 		}
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws SchedulerException{
 		DBHandler.initialize();
+		Cleaner.runJob();
 		new P2PServer().startServer();
 	}
 
