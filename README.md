@@ -18,9 +18,9 @@ The server is cleaning the database periodically of old Subscribers it didn't he
 #### Server configurations
 
 The server is running on port 8443, Build using maven:
-'mvn clean install' 
+`mvn clean install`
 The possible commands are:
-'localhost:8443/subscribe'
+`localhost:8443/subscribe`
 GET - Returns a list of IPs registered to the server.
 POST - Will subscribe the sender to the service.
 
