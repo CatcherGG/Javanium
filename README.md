@@ -26,6 +26,7 @@ The server is running on port 8443, Build using maven:
 `localhost:8443/subscribe`
 
 GET - Returns a list of IPs registered to the server.
+
 POST - Will subscribe the sender to the service.
 
 
