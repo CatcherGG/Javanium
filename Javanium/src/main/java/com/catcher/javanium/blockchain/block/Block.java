@@ -27,6 +27,7 @@ public class Block implements Serializable {
 	private long height;
 	private Transaction coinbase;
 	private List<Transaction> transactions;
+	public int nonce;
 
 	/** Creating a block. Pointing to the previous block and creating a new genesis block. */
 	public Block(byte[] prevHash, PublicKey address, long height) {
@@ -36,6 +37,7 @@ public class Block implements Serializable {
 		this.height = height;
 		merkleRoot = new byte[0];
 		hash = new byte[0];
+		nonce = 0;
 	}
 
 	public Transaction getCoinbase() {
@@ -84,6 +86,7 @@ public class Block implements Serializable {
 		hash = hashFunction.newHasher()
 				.putBytes(prevBlockHash)
 				.putBytes(merkleRoot)
+				.putInt(nonce)
 				.hash().asBytes();
 		return hash;
 	}
