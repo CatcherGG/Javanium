@@ -4,7 +4,7 @@
 
   <groupId>com.catcher.javanium</groupId>
   <artifactId>p2p</artifactId>
-  <version>0.0.1</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
 
   <name>p2p</name>

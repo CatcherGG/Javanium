@@ -7,7 +7,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-import org.quartz.SchedulerException;
 
 import com.catcher.javanium.p2p.server.subscribers.Cleaner;
 import com.catcher.javanium.p2p.server.subscribers.DBHandler;
@@ -15,15 +14,28 @@ import com.catcher.javanium.p2p.server.subscribers.DBHandler;
 public class P2PServer {
 
 	Logger log = Logger.getLogger(P2PServer.class.toString());
+	Server server;
+	int port;
+
+	public P2PServer() {
+		this(8443);
+	}
+
+	public P2PServer(int port) {
+		this.port = port;
+	}
 
 	public void startServer() {
 		try {
+			DBHandler.initialize();
+			Cleaner.runJob();
+
 			ResourceConfig resourceConfig = new ResourceConfig();		
 			resourceConfig.packages(SubscriberServlet.class.getPackage().getName());
 			ServletContainer servletContainer = new ServletContainer(resourceConfig);
 			ServletHolder servletHolder = new ServletHolder(servletContainer);     
 
-			Server server = new Server(8443);
+			server = new Server(port);
 			ServletContextHandler context = new ServletContextHandler();
 			context.setContextPath("/");
 			context.addServlet(servletHolder, "/*");
@@ -31,16 +43,17 @@ public class P2PServer {
 			server.setHandler(context);
 
 			server.start();
-			server.join();
 		} catch (Exception e){
-			log.throwing(this.getClass().getName(), "configServer", e);
+			log.throwing(this.getClass().getName(), "startServer", e);
 		}
 	}
 
-	public static void main(String[] args) throws SchedulerException{
-		DBHandler.initialize();
-		Cleaner.runJob();
-		new P2PServer().startServer();
+	public void stopServer() {
+		try {
+			server.stop();
+		} catch (Exception e) {
+			log.throwing(this.getClass().getName(), "stopServer", e);
+		}
 	}
 
 }
