@@ -19,7 +19,7 @@ public class SubscriberHandler {
 	 */
 	public static void insertSubscriber(String ip){
 
-		try(Connection connection = DBHandler.getConnection();
+		try(Connection connection = SubscriberDBHandler.getConnection();
 				PreparedStatement statement = connection.prepareStatement("INSERT OR REPLACE INTO SUBSCRIBERS (IP, LAST_SEEN) VALUES (?, ?)")) {
 			statement.setString(1, ip);
 			statement.setLong(2, System.currentTimeMillis());
@@ -29,7 +29,6 @@ public class SubscriberHandler {
 		}
 	}
 
-
 	/**
 	 * This will get the list of subscribers to the p2p network.
 	 * @return List of the last seen IPS.
@@ -38,7 +37,7 @@ public class SubscriberHandler {
 
 		List<String> ips = new ArrayList<>();
 
-		try(Connection connection = DBHandler.getConnection();
+		try(Connection connection = SubscriberDBHandler.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT IP FROM SUBSCRIBERS LIMIT 100")) {
 

@@ -3,16 +3,16 @@ package com.catcher.javanium.p2p.server.subscribers;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import java.util.logging.Logger;
 
-import com.zaxxer.hikari.HikariConfig;
+import com.catcher.javanium.p2p.database.DatabaseHandler;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class DBHandler {
+public class SubscriberDBHandler {
 
-	private static HikariDataSource datasource = createNewDatabase();
-	private static Logger log = Logger.getLogger(DBHandler.class.getName());
+	private static HikariDataSource datasource = DatabaseHandler.createNewDatabase("P2PServer");
+	private static Logger log = Logger.getLogger(SubscriberDBHandler.class.getName());
+
 
 	public static void initialize(){
 		createTable();
@@ -20,17 +20,6 @@ public class DBHandler {
 
 	public static Connection getConnection() throws SQLException {
 		return datasource.getConnection();
-	}
-
-	private static HikariDataSource createNewDatabase() {
-
-		Properties props = new Properties();
-		props.setProperty("dataSourceClassName", "org.sqlite.SQLiteDataSource");
-		props.setProperty("dataSource.databaseName", "P2PServer");
-
-		HikariConfig config = new HikariConfig(props);
-
-		return new HikariDataSource(config);
 	}
 
 	private static void createTable(){

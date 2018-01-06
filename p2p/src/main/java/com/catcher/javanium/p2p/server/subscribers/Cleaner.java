@@ -41,7 +41,7 @@ public class Cleaner implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		try(Connection connection = DBHandler.getConnection();
+		try(Connection connection = SubscriberDBHandler.getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM SUBSCRIBERS WHERE LAST_SEEN < ?")) {
 
 			long now = System.currentTimeMillis();

@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.catcher.javanium.p2p.server.subscribers.Cleaner;
-import com.catcher.javanium.p2p.server.subscribers.DBHandler;
+import com.catcher.javanium.p2p.server.subscribers.SubscriberDBHandler;
 
 public class P2PServer {
 
@@ -27,7 +27,7 @@ public class P2PServer {
 
 	public void startServer() {
 		try {
-			DBHandler.initialize();
+			SubscriberDBHandler.initialize();
 			Cleaner.runJob();
 
 			ResourceConfig resourceConfig = new ResourceConfig();		
