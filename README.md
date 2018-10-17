@@ -4,7 +4,7 @@ Javanium is a simple blockchain java framework. It's meant to be a simple implem
 
 ## Blockchain
 
-Javanium blockchain is pretty similiar to Bitcoin logic. Except that I've been using SHA512 as the main hashing algorithem, while Bitcoin uses SHA256. Other than that it should have similar logic.
+Javanium blockchain is pretty similiar to Bitcoin logic. Except that I've been using SHA512 as the main hashing algorithm, while Bitcoin uses SHA256. Other than that it should have similar logic.
 
 In order to make it persistent the blockchain itself is stored in MapDB (Embedded noSQL DB)
 
